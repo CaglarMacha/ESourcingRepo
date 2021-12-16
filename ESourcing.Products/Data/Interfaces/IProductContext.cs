@@ -10,6 +10,7 @@ namespace ESourcing.Products.Data.Interfaces
     public interface IProductContext
     {
         //Mongo Db Context işlemini yapıyoruz Mongo Client e bağlanıyoruz
-        IMongoCollection<Product> Products
+        IMongoCollection<Product> Products { get; }
+
     }
 }
