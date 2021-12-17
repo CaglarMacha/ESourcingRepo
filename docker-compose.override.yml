@@ -19,5 +19,5 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ${HOME}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${HOME}/ASP.NET/Https:/root/.aspnet/https/
       - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
