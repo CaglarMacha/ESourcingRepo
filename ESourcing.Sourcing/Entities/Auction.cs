@@ -35,4 +35,4 @@ namespace ESourcing.Sourcing.Entities
         Passive = 2
     }
 }
-}
+
