@@ -57,7 +57,7 @@ namespace ESourcing.Sourcing.Controllers
         {
             return Ok(await _auctionRepository.Update(auction));  
         }
-        [HttpDelete]
+        [HttpDelete("id:lenght(24)")]
         [ProducesResponseType(typeof(IEnumerable<Auction>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Auction>> DeleteAuction(string id)
         {
