@@ -38,6 +38,7 @@ namespace ESourcing.Sourcing
             services.AddSingleton<ISourcingDatabaseSettings>(sp=>sp.GetRequiredService<IOptions<SourcingDatabaseSettings>>().Value);
             services.AddTransient<ISourcingContext, SourcingContext>();
             services.AddTransient<IAuctionRepository, AuctionRepository>();
+            services.AddTransient<IBidRepository, BidRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ESourcing.Sourcing", Version = "v1" });
