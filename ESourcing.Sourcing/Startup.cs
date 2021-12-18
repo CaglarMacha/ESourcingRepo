@@ -36,7 +36,9 @@ namespace ESourcing.Sourcing
             services.AddControllers();
             services.Configure<SourcingDatabaseSettings>(Configuration.GetSection(nameof(SourcingDatabaseSettings)));
             services.AddSingleton<ISourcingDatabaseSettings>(sp=>sp.GetRequiredService<IOptions<SourcingDatabaseSettings>>().Value);
+            
             services.AddTransient<ISourcingContext, SourcingContext>();
+            
             services.AddTransient<IAuctionRepository, AuctionRepository>();
             services.AddTransient<IBidRepository, BidRepository>();
             services.AddSwaggerGen(c =>
