@@ -38,30 +38,6 @@ namespace EventBusRabbitMQ
                 return _connection != null && _connection.IsOpen && !_disposed;
             }
         }
-        public IModel CreateModel()
-        {
-            if(!IsConnected)
-            {
-                throw new InvalidOperationException("No RabbitMQ connections are available to perform this action");
-            }
-            return _connection.CreateModel();
-        }
-
-        public void Dispose()
-        {
-            if (_disposed) 
-                return;
-            _disposed = true;
-            try
-            {
-                _connection.Dispose();
-            }
-            catch(InvalidOperationException ex)
-            {
-                _logger.LogCritical(ex.ToString());
-            }
-        }
-
         public bool TryConnect()
         {
             _logger.LogInformation("RabbitMQ Client is trying to connect");
@@ -94,6 +70,33 @@ namespace EventBusRabbitMQ
                 return false;
             }
         }
+
+
+        public IModel CreateModel()
+        {
+            if(!IsConnected)
+            {
+                throw new InvalidOperationException("No RabbitMQ connections are available to perform this action");
+            }
+            return _connection.CreateModel();
+        }
+
+        public void Dispose()
+        {
+            if (_disposed) 
+                return;
+            _disposed = true;
+            try
+            {
+                _connection.Dispose();
+            }
+            catch(InvalidOperationException ex)
+            {
+                _logger.LogCritical(ex.ToString());
+            }
+        }
+
+        
 
         private void OnConnectionBlocked(object sender, ConnectionBlockedEventArgs e)
         {
