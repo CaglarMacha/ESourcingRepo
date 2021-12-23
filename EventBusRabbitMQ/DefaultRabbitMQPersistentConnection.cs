@@ -2,6 +2,7 @@
 using Polly;
 using Polly.Retry;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -89,5 +90,31 @@ namespace EventBusRabbitMQ
                 return false;
             }
         }
+
+        private void OnConnectionBlocked(object sender, ConnectionBlockedEventArgs e)
+        {
+            if (_disposed)
+                return;
+            _logger.LogWarning("A RabbitMQ connection is shutdown.");
+            TryConnect();
+        }
+
+        private void OnConnectionShutdown(object sender, ShutdownEventArgs e)
+        {
+            if (_disposed)
+                return;
+            _logger.LogWarning("A RabbitMQ connection is shutdown.");
+            TryConnect();
+        }
+
+        private void OnCallbackException(object sender, CallbackExceptionEventArgs e)
+        {
+            if (_disposed)
+                return;
+            _logger.LogWarning("A RabbitMQ connection throw exception.");
+            TryConnect();
+        }
+
+      
     }
 }
