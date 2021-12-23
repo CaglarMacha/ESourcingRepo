@@ -1,6 +1,7 @@
 ﻿using DnsClient.Internal;
 using ESourcing.Sourcing.Entities;
 using ESourcing.Sourcing.Repositories.Interfaces;
+using EventBusRabbitMQ.Events;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,12 +17,14 @@ namespace ESourcing.Sourcing.Controllers
     public class AuctionController : ControllerBase
     {
         private readonly IAuctionRepository _auctionRepository;
+        private readonly IBidRepository _bidRepository;
         private readonly ILogger<AuctionController> _logger;
 
-        public AuctionController(IAuctionRepository auctionRepository, ILogger<AuctionController> logger)
+        public AuctionController(IAuctionRepository auctionRepository, ILogger<AuctionController> logger , IBidRepository bidRepository)
         {
             _auctionRepository = auctionRepository;
             _logger = logger;
+            _bidRepository = bidRepository;
         }
 
         [HttpGet]
@@ -63,6 +66,28 @@ namespace ESourcing.Sourcing.Controllers
         {
             return Ok(await _auctionRepository.Delete(id));
         }
+        [HttpPost("ComplateAuction")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> CompleteAuction(string id)
+        {
+            Auction auction = await _auctionRepository.GetAuction(id);
+
+            if (auction == null)
+                return NotFound();
+            if(auction.Status!=(int)Status.Active)
+            {
+                _logger.LogError("Auction can not be completed");
+                return BadRequest();
+            }
+
+            Bid bid = await _bidRepository.GetWinnerBid(id);
+            if (bid == null)
+                return NotFound();
+
+
+            OrderCreateEvent evetMessage = new OrderCreateEvent() ;
+            
+        } 
 
     }
 
