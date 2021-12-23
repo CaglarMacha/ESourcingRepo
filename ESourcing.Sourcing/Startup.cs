@@ -5,6 +5,7 @@ using ESourcing.Sourcing.Repositories.Interfaces;
 using ESourcing.Sourcing.Settings;
 using ESourcing.Sourcing.Settings.Interface;
 using EventBusRabbitMQ;
+using EventBusRabbitMQ.Producer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +77,8 @@ namespace ESourcing.Sourcing
 
 
             });
+
+            services.AddSingleton<EventBusRabbitMQProducer>();
 
 
 

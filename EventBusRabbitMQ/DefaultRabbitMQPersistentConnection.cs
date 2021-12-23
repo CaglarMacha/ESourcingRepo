@@ -56,7 +56,7 @@ namespace EventBusRabbitMQ
             if (IsConnected)
             {
                 _connection.ConnectionShutdown += OnConnectionShutdown;
-                _connection.CallbackException += OnCallbackException;
+                _connection.CallbackException += OnCallbackException; 
                 _connection.ConnectionBlocked += OnConnectionBlocked;
 
                 _logger.LogInformation("RabbitMQ Client acquired a persistent connection to '{HostName}' and is subscribed to failure events", _connection.Endpoint.HostName);
