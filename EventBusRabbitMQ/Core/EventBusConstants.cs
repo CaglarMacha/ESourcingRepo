@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace EventBusRabbitMQ.Core
 {
-    class EventBusConstants
+    public class EventBusConstants
     {
+        public const string OrderCreateQueue = "orderCreateQueue";
     }
 }
