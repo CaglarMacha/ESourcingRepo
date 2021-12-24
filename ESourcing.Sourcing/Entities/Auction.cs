@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ESourcing.Sourcing.Entities
+namespace Esourcing.Sourcing.Entities
 {
     public class Auction
     {
@@ -35,4 +35,3 @@ namespace ESourcing.Sourcing.Entities
         Passive = 2
     }
 }
-

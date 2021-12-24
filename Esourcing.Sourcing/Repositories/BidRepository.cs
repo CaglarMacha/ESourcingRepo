@@ -1,14 +1,15 @@
-﻿using ESourcing.Sourcing.Data.Interface;
-using ESourcing.Sourcing.Entities;
+﻿using Esourcing.Sourcing.Data.Interface;
+using Esourcing.Sourcing.Entities;
+using Esourcing.Sourcing.Repositories.Interfaces;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ESourcing.Sourcing.Repositories.Interfaces
+namespace Esourcing.Sourcing.Repositories
 {
-    public class BidRepository:IBidRepository
+    public class BidRepository : IBidRepository
     {
         private readonly ISourcingContext _context;
 
@@ -17,7 +18,7 @@ namespace ESourcing.Sourcing.Repositories.Interfaces
             _context = context;
         }
 
-        public async Task<List<Bid>> GetBidByAuctionId(string id)
+        public async Task<List<Bid>> GetBidsByAuctionId(string id)
         {
             FilterDefinition<Bid> filter = Builders<Bid>.Filter.Eq(a => a.AuctionId, id);
 
@@ -37,20 +38,36 @@ namespace ESourcing.Sourcing.Repositories.Interfaces
                        })
                        .ToList();
 
-
             return bids;
-
         }
 
-        public Task<List<Bid>> GetBids()
+        public async Task<List<Bid>> GetAllBidsByAuctionId(string id)
         {
-            throw new NotImplementedException();
+            FilterDefinition<Bid> filter = Builders<Bid>.Filter.Eq(p => p.AuctionId, id);
+
+            List<Bid> bids = await _context
+                          .Bids
+                          .Find(filter)
+                          .ToListAsync();
+
+            bids = bids.OrderByDescending(a => a.CreatedAt)
+                                   .Select(a => new Bid
+                                   {
+                                       AuctionId = a.AuctionId,
+                                       Price = a.Price,
+                                       CreatedAt = a.CreatedAt,
+                                       SellerUserName = a.SellerUserName,
+                                       ProductId = a.ProductId,
+                                       Id = a.Id
+                                   })
+                                   .ToList();
+
+            return bids;
         }
 
         public async Task<Bid> GetWinnerBid(string id)
         {
-            List<Bid> auctions = await _context.Bids.Find(p => p.AuctionId == id).ToListAsync();
-            List<Bid> bids = await GetBidByAuctionId(id);
+            List<Bid> bids = await GetBidsByAuctionId(id);
 
             return bids.OrderByDescending(a => a.Price).FirstOrDefault();
         }
@@ -58,7 +75,6 @@ namespace ESourcing.Sourcing.Repositories.Interfaces
         public async Task SendBid(Bid bid)
         {
             await _context.Bids.InsertOneAsync(bid);
-
         }
     }
 }

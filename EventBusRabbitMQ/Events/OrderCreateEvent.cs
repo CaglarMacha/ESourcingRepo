@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EventBusRabbitMQ.Events
 {
-    public class OrderCreateEvent:IEvent
+    public class OrderCreateEvent : IEvent
     {
         public string Id { get; set; }
         public string AuctionId { get; set; }

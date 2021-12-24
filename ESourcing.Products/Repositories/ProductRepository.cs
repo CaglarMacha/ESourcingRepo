@@ -2,9 +2,7 @@
 using ESourcing.Products.Entities;
 using ESourcing.Products.Repositories.Interfaces;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ESourcing.Products.Repositories
@@ -12,10 +10,12 @@ namespace ESourcing.Products.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly IProductContext _context;
+
         public ProductRepository(IProductContext context)
         {
             _context = context;
         }
+
         public async Task Create(Product product)
         {
             await _context.Products.InsertOneAsync(product);
@@ -24,7 +24,8 @@ namespace ESourcing.Products.Repositories
         public async Task<bool> Delete(string id)
         {
             var filter = Builders<Product>.Filter.Eq(m => m.Id, id);
-            DeleteResult deleteResult = await _context.Products.DeleteOneAsync(filter);           
+            DeleteResult deleteResult = await _context.Products.DeleteOneAsync(filter);
+
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
@@ -46,7 +47,7 @@ namespace ESourcing.Products.Repositories
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
-        {          
+        {
             return await _context.Products.Find(p => true).ToListAsync();
         }
 
@@ -54,7 +55,6 @@ namespace ESourcing.Products.Repositories
         {
             var updateResult = await _context.Products.ReplaceOneAsync(filter: g => g.Id == product.Id, replacement: product);
             return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
-
         }
     }
 }

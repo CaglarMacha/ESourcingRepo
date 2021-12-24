@@ -17,6 +17,7 @@ namespace ESourcing.Products.Data
                 productCollection.InsertManyAsync(GetConfigureProducts());
             }
         }
+
         private static IEnumerable<Product> GetConfigureProducts()
         {
             return new List<Product>()
@@ -79,4 +80,3 @@ namespace ESourcing.Products.Data
         }
     }
 }
- 

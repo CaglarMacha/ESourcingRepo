@@ -1,15 +1,14 @@
-﻿using ESourcing.Sourcing.Data.Interface;
-using ESourcing.Sourcing.Entities;
-using ESourcing.Sourcing.Repositories.Interfaces;
+﻿using Esourcing.Sourcing.Data.Interface;
+using Esourcing.Sourcing.Entities;
+using Esourcing.Sourcing.Repositories.Interfaces;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ESourcing.Sourcing.Repositories
+namespace Esourcing.Sourcing.Repositories
 {
-    
     public class AuctionRepository : IAuctionRepository
     {
         private readonly ISourcingContext _context;
@@ -28,29 +27,31 @@ namespace ESourcing.Sourcing.Repositories
         {
             FilterDefinition<Auction> filter = Builders<Auction>.Filter.Eq(m => m.Id, id);
             DeleteResult deleteResult = await _context.Auctions.DeleteOneAsync(filter);
+
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
         public async Task<Auction> GetAuction(string id)
         {
-            return await _context.Auctions.Find(a=>a.Id==id).FirstOrDefaultAsync();
+            return await _context.Auctions.Find(a => a.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Auction> GetAuctionByName(string Name)
+        public async Task<Auction> GetAuctionByName(string name)
         {
-            FilterDefinition<Auction> filter = Builders<Auction>.Filter.Eq(m => m.Name,Name);
+            FilterDefinition<Auction> filter = Builders<Auction>.Filter.Eq(m => m.Name, name);
 
             return await _context.Auctions.Find(filter).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Auction>> GetAuctions()
         {
-            return await _context.Auctions.Find(p => true).ToListAsync();
+            return await _context.Auctions.Find(a => true).ToListAsync();
         }
 
         public async Task<bool> Update(Auction auction)
         {
-            var updateResult = await _context.Auctions.ReplaceOneAsync(a=>a.Id.Equals(auction.Id),auction);
+            var updateResult = await _context.Auctions.ReplaceOneAsync(a => a.Id.Equals(auction.Id), auction);
+
             return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
     }

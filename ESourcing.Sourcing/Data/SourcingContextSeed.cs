@@ -1,24 +1,23 @@
-﻿using ESourcing.Sourcing.Entities;
+﻿using Esourcing.Sourcing.Entities;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ESourcing.Sourcing.Data
+namespace Esourcing.Sourcing.Data
 {
     public class SourcingContextSeed
     {
-        public static void SeedData (IMongoCollection<Auction> auctionCollection)
+        public static void SeedData(IMongoCollection<Auction> auctionCollection)
         {
             bool exist = auctionCollection.Find(p => true).Any();
-            if (!exist)
-            {
-                auctionCollection.InsertManyAsync(GetPreconfigureAuctions());
+            if (!exist) {
+                auctionCollection.InsertManyAsync(GetPreconfiguredAuctions());
             }
         }
 
-        private static IEnumerable<Auction> GetPreconfigureAuctions()
+        private static IEnumerable<Auction> GetPreconfiguredAuctions()
         {
             return new List<Auction>()
             {
