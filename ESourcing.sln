@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Domain", "..\ESour
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Infrastructure", "..\ESourcingörnek\Ordering.Infrastructure\Ordering.Infrastructure.csproj", "{41F658FC-73D0-4833-B9F2-FEE8745D6493}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messages", "Messages", "{8102456D-9213-4804-BC6F-7DC44EA6899E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +162,7 @@ Global
 		{8087F3E5-6024-4B2B-869F-2524B02225C8} = {30E9EDBF-C92C-4DE1-A98E-5EA9F6170850}
 		{74969F0B-8F87-48E0-BE34-0952A5ED4B88} = {30E9EDBF-C92C-4DE1-A98E-5EA9F6170850}
 		{41F658FC-73D0-4833-B9F2-FEE8745D6493} = {30E9EDBF-C92C-4DE1-A98E-5EA9F6170850}
+		{8102456D-9213-4804-BC6F-7DC44EA6899E} = {EA6D327C-2037-4A09-B65B-9C7D7B7F49C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7FFA2C5A-59DC-436C-9FCC-61FDADBA081B}
